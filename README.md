@@ -14,20 +14,22 @@ This script will:
 
 Usage
 ----
-
 ```
 gitrepo [repositoryName]
 ```
 repositoryName is optional.  Default will be the name of the current working directory.
 if a name is provided, the new repo will be created inside your current working directory.
 
-How It Works
-----
-* you will need to replace some of the information inside gitrepo.py
-	* you can either hard code in your username and password, or keep it as is
-	* TODO: finish setup
 
-Requirements:
+Setup
+----
+* you will need to replace some of the information inside gitrepo.py and gitrepo
+	* you can either hard code in your username and password for conveinence, or keep it as is for security.
+	* put the gitrepo bash script anywhere in your PATH.  You can rename this whatever you want.
+	* inside the gitrepo bash script, change path to python interpreter, and gitrepo.py
+	
+
+Requirements
 ----
 	* [Selenium](https://pypi.org/project/selenium/)
 	* [Chrome (or browser of choice)](https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en)

@@ -31,7 +31,7 @@ def main():
     else:
         repo_name = os.path.basename(os.getcwd())
 
-
+    # open github, create new repo
     with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
         driver.get('https://github.com/login')
 
@@ -59,17 +59,23 @@ def main():
         button_xpath = '//*[@id="new_repository"]/div[4]/button'
         driver.find_element_by_xpath(button_xpath).click()
 
+
+    # check if .git or README already exist, if not create them
     if '.git' not in os.listdir():
         os.system('git init')
-
     if 'README.md' not in os.listdir():
         os.system('touch README.md')
 
     os.system('git add .')
     os.system('git commit -m "initial commit"')
-    os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
-    os.system('git push -u origin master')
 
+    # SWAP DEPENDING IF YOU WANT SSH OR HTTPS REMOTE LINK
+    if not input('0 for HTTPS, 1 for SSH'):
+        os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
+    else:
+        os.system(f'git remote add origin https://github.com/{user_name}/{repo_name}.git')
+
+    os.system('git push -u origin master')
     pyperclip.copy(f'github.com/{user_name}/{repo_name}')
 
 if __name__ == '__main__':
