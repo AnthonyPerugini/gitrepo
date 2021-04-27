@@ -26,7 +26,6 @@ if a name is provided, the new repo will be created inside your current working 
 Setup
 ----
 * Put the gitrepo bash script anywhere in your PATH.  You can rename this whatever you want.
-
 * You will need to replace some of the information inside gitrepo.py and gitrepo
 
 	* Inside gitrepo.py
