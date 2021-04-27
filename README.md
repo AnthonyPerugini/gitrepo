@@ -1,9 +1,3 @@
-> many people make the mistake of saving money by wasting time.
-> 
-> -J.R. Rim
-> 
-wow, such inspiration.  Now with your head in the right place, lets take a look at...
-
 # GitRepo
 
 
@@ -53,3 +47,9 @@ see requirements.txt
 [chromedriver or driver of choice](https://chromedriver.chromium.org/downloads)
 
 [clipboard](https://pypi.org/project/clipboard/)
+
+And with that, ill leave you with some words of wisdom.
+> many people make the mistake of saving money by wasting time.
+> 
+> -J.R. Rim
+> 
