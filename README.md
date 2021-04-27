@@ -6,12 +6,12 @@ Uses selenium to access github, and do all the repetitive steps of creating the 
 
 This script will:
 
-	* Create a new github repository with a name of your choice
-	* runs 'git init' (if no .git is found)
-	* create a blank README.md (if none is found)
-	* remote attach git to the newly created github repo
-	* pushes an initial commit to github
-	* return a link to the repo on your clipboard
+* Create a new github repository with a name of your choice
+* runs 'git init' (if no .git is found)
+* create a blank README.md (if none is found)
+* remote attach git to the newly created github repo
+* pushes an initial commit to github
+* return a link to the repo on your clipboard
 
 
 Usage
@@ -33,8 +33,8 @@ Setup
 
 Requirements
 ----
-	* [Selenium](https://pypi.org/project/selenium/)
-	* [Chrome (or browser of choice)](https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en)
-	* [chromedriver (or driver of choice)](https://chromedriver.chromium.org/downloads)
-	* [clipboard](https://pypi.org/project/clipboard/)
+[Selenium](https://pypi.org/project/selenium/)
+[Chrome or browser of choice](https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en)
+[chromedriver or driver of choice](https://chromedriver.chromium.org/downloads)
+[clipboard](https://pypi.org/project/clipboard/)
 
