@@ -1,14 +1,16 @@
 # GitRepo
 
 Bash/python script to automate the process of git/github initialization.
+Uses selenium to access github, and do all the repetitive steps of creating the repo for you.
+
 
 This script will:
 
 	* Create a new github repository with a name of your choice
-	* run a git init (if no .git is found)
+	* runs 'git init' (if no .git is found)
 	* create a blank README.md (if none is found)
 	* remote attach git to the newly created github repo
-	* push an initial commit
+	* pushes an initial commit to github
 	* return a link to the repo on your clipboard
 
 
