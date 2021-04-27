@@ -40,6 +40,8 @@ Setup
 
 Requirements
 ----
+see requirements.txt
+
 [Selenium](https://pypi.org/project/selenium/)
 
 [Chrome or browser of choice](https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en)
