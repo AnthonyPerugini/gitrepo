@@ -1,0 +1,10 @@
+#! /bin/bash
+if [ "$#" -gt 1 ]; then
+	echo "Illegal number of parameters"
+	echo "USAGE: gitrepo [github_repo_name]"
+	echo "Default github_repo_name will be the current working directory name if not provided"
+	exit 1
+fi
+
+# replace these with your python and gitrepo.py locations 
+/home/spicy/miniconda3/envs/webscraping/bin/python /home/spicy/fun/bash_scripts/gitrepo/gitrepo.py $1

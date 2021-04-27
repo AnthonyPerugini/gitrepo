@@ -16,9 +16,10 @@ Usage
 ----
 
 ```
-gitrepo [repository_name]
+gitrepo [repositoryName]
 ```
-repository_name is optional.  Default will be the name of the current working directory.
+repositoryName is optional.  Default will be the name of the current working directory.
+if a name is provided, the new repo will be created inside your current working directory.
 
 How It Works
 ----
@@ -31,4 +32,5 @@ Requirements:
 	* [Selenium](https://pypi.org/project/selenium/)
 	* [Chrome (or browser of choice)](https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en)
 	* [chromedriver (or driver of choice)](https://chromedriver.chromium.org/downloads)
+	* [clipboard](https://pypi.org/project/clipboard/)
 
