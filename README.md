@@ -14,9 +14,10 @@ This script will:
 
 Usage
 ----
-'''
+
+```
 gitrepo [repository_name]
-'''
+```
 * repository_name is optional.  Default will be the name of the current working directory.
 
 How It Works
