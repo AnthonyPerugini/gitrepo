@@ -1,10 +1,14 @@
-# GitRepo
-
 > many people make the mistake of saving money by wasting time.
 > 
 > -J.R. Rim
+> 
+wow, such inspiration.  Now with your head in the right place, lets take a look at...
+
+# GitRepo
 
 
+What Is It?
+----
 Bash/python script to automate the process of git/github initialization.
 Uses selenium to access github, and do all the repetitive steps of creating the repo for you.
 
