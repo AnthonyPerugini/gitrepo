@@ -1,6 +1,7 @@
 import sys
 import os
 from getpass import getpass
+import pyperclip
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -68,6 +69,8 @@ def main():
     os.system('git commit -m "initial commit"')
     os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
     os.system('git push -u origin master')
+
+    pyperclip.copy(f'github.com/{user_name}/{repo_name}')
 
 if __name__ == '__main__':
     main()
