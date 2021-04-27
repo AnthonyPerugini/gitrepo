@@ -1,7 +1,9 @@
 # GitRepo
 
 Bash/python script to automate the process of git/github initialization.
+
 This script will:
+
 	* Create a new github repository with a name of your choice
 	* run a git init (if no .git is found)
 	* create a blank README.md (if none is found)
