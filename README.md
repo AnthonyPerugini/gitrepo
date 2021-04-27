@@ -25,16 +25,21 @@ if a name is provided, the new repo will be created inside your current working 
 
 Setup
 ----
-* you will need to replace some of the information inside gitrepo.py and gitrepo
-	* you can either hard code in your username and password for conveinence, or keep it as is for security.
-	* put the gitrepo bash script anywhere in your PATH.  You can rename this whatever you want.
-	* inside the gitrepo bash script, change path to python interpreter, and gitrepo.py
-	
+* Put the gitrepo bash script anywhere in your PATH.  You can rename this whatever you want.
+
+* You will need to replace some of the information inside gitrepo.py and gitrepo
+
+* Inside gitrepo.py
+	* You can either hard code in your username and password for conveinence, or keep it as is for security.
+* Inside gitrepo
+	* Change path to python interpreter, and gitrepo.py
 
 Requirements
 ----
 [Selenium](https://pypi.org/project/selenium/)
-[Chrome or browser of choice](https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en)
-[chromedriver or driver of choice](https://chromedriver.chromium.org/downloads)
-[clipboard](https://pypi.org/project/clipboard/)
 
+[Chrome or browser of choice](https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en)
+
+[chromedriver or driver of choice](https://chromedriver.chromium.org/downloads)
+
+[clipboard](https://pypi.org/project/clipboard/)
