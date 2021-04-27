@@ -29,10 +29,10 @@ Setup
 
 * You will need to replace some of the information inside gitrepo.py and gitrepo
 
-* Inside gitrepo.py
-	* You can either hard code in your username and password for conveinence, or keep it as is for security.
-* Inside gitrepo
-	* Change path to python interpreter, and gitrepo.py
+	* Inside gitrepo.py
+		* You can either hard code in your username and password for conveinence, or keep it as is for security.
+	* Inside gitrepo
+		* Change path to python interpreter, and gitrepo.py
 
 Requirements
 ----
