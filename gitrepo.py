@@ -71,13 +71,14 @@ def main():
     os.system('git commit -m "initial commit"')
 
     # SWAP DEPENDING IF YOU WANT SSH OR HTTPS REMOTE LINK
-    if not input('0 for HTTPS, 1 for SSH'):
+    if input('Choose 0 for HTTPS, 1 for SSH: '):
         os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
     else:
         os.system(f'git remote add origin https://github.com/{user_name}/{repo_name}.git')
 
     os.system('git push -u origin master')
     pyperclip.copy(f'github.com/{user_name}/{repo_name}')
+    os.system('echo "Github url successfully copied to clipboard!')
 
 if __name__ == '__main__':
     main()
