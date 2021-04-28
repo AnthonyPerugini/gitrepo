@@ -78,7 +78,7 @@ def main():
 
     os.system('git push -u origin master')
     pyperclip.copy(f'github.com/{user_name}/{repo_name}')
-    os.system('echo "Github url successfully copied to clipboard!')
+    os.system('echo "Github URL successfully copied to clipboard!"')
 
 if __name__ == '__main__':
     main()
