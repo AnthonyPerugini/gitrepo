@@ -11,12 +11,12 @@ Uses selenium to access github, and do all the repetitive steps of creating the 
 
 This script will:
 
-* Create a new github repository with a name of your choice
-* runs 'git init' (if no .git is found)
-* create a blank README.md (if none is found)
-* remote attach git to the newly created github repo
-* pushes an initial commit to github
-* return a link to the repo on your clipboard
+* Create a new github repository with a name of your choice.
+* runs 'git init' (if no .git is found).
+* create a blank README.md (if none is found).
+* remote attach git to the newly created github repo.
+* pushes an initial commit to github.
+* return a link to the repo on your clipboard.
 
 
 Usage
