@@ -54,7 +54,8 @@ def main():
         
         responce = WebDriverWait(driver, 10).until(
                             EC.presence_of_element_located((By.CSS_SELECTOR, "[id^=input-check]")))
-        # assert responce.text == f'{repo_name} is available.', responce.text
+        
+        assert responce.text == f'{repo_name} is available.', responce.text
         
         button_xpath = '//*[@id="new_repository"]/div[4]/button'
         driver.find_element_by_xpath(button_xpath).click()
