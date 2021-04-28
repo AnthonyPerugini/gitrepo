@@ -3,32 +3,36 @@
 
 What Is It?
 ----
-Bash/python script to automate the process of git/github initialization.
-Uses selenium to access github, and do all the repetitive steps of creating the repo for you.
+Python to automate the process of git repo and github initialization.
+
+Uses selenium to access github, do all the repetitive steps of creating the repo for you, and initialized the local repo if necessary.
 
 
-This script will:
+This command will:
 
-* Create a new github repository with a name of your choice
-* runs 'git init' (if no .git is found)
-* create a blank README.md (if none is found)
-* remote attach git to the newly created github repo
+* Create a new github repository with the name of your choice.
+* runs 'git init' if no .git is found.
+* creates a blank README if none is found.
+* remote attach local git to the newly created github repo
 * pushes an initial commit to github
 * return a link to the repo on your clipboard
 
 
 Usage
 ----
+Add 'gitrepo' to your ~/usr/bin/~ folder and use like any script command.
+
 ```
 gitrepo [repositoryName]
 ```
+
 repositoryName is optional.  Default will be the name of the current working directory.
-if a name is provided, the new repo will be created inside your current working directory.
+if a name is provided, a new repo with that name will be created inside your current working directory.
 
 
 Setup
 ----
-* Put the gitrepo bash script anywhere in your PATH.  You can rename this whatever you want.
+* Put the gitrepo bash script anywhere in your PATH ~/usr/bin/~ default.  You can rename this whatever you want.
 * You will need to replace some of the information inside gitrepo.py and gitrepo
 
 	* Inside gitrepo.py
