@@ -6,5 +6,5 @@ if [ "$#" -gt 1 ]; then
 	exit 1
 fi
 
-# replace these with your python and gitrepo.py locations 
-/home/spicy/miniconda3/envs/webscraping/bin/python /home/spicy/fun/bash_scripts/gitrepo/gitrepo.py $1
+# replace with your python and gitrepo.py locations 
+<insert python path here> <insert git_repo.py path here> $1
