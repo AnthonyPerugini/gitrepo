@@ -8,4 +8,3 @@ fi
 
 # auto populated from install.sh here with python and file path
 # >>>>>>
-python3 /home/spicy/fun/repos/gitrepo/gitrepo.py $1

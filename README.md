@@ -41,6 +41,7 @@ chmod -x install.sh
 
 	* Inside gitrepo.py
 		* You can either hard code in your username and password for conveinence, or keep it as is for security.
+		* Change the options.binary_location if your google-chrome installation path is different
 
 Requirements
 ----

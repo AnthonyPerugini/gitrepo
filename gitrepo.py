@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 options = webdriver.ChromeOptions()
 # CHANGE THESE TO MATCH YOUR DOWNLOAD LOCATIONS FOR YOUR BROWSER AND BROWSERDRIVER
-options.binary_loaction = r"/usr/bin/google-chrome-stable"
+options.binary_location = r"/usr/bin/google-chrome-stable"
 executable_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver"
 
 def main():
