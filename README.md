@@ -1,5 +1,9 @@
 # GitRepo
 
+> many people make the mistake of saving money by wasting time.
+> 
+> -J.R. Rim
+> 
 
 What Is It?
 ----
@@ -33,11 +37,11 @@ Setup
 to install, run the following:
 ```
 git clone https://github.com/AnthonyPerugini/gitrepo
-chmod -x install.sh
+chmod +x install.sh
 ./install.sh
 ```
 
-* You will need to replace some of the information inside gitrepo.py
+* You may need to replace some of the information inside gitrepo.py
 
 	* Inside gitrepo.py
 		* You can either hard code in your username and password for conveinence, or keep it as is for security.
@@ -46,6 +50,9 @@ chmod -x install.sh
 Requirements
 ----
 see requirements.txt
+everything will be installed automatically with install.sh
+
+You may want to change google-chrome and chromedriver to match the browser of your choice.
 
 [Selenium](https://pypi.org/project/selenium/)
 
@@ -55,7 +62,3 @@ see requirements.txt
 
 [clipboard](https://pypi.org/project/clipboard/)
 
-> many people make the mistake of saving money by wasting time.
-> 
-> -J.R. Rim
-> 
