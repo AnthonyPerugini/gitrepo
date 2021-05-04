@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 options = webdriver.ChromeOptions()
 # CHANGE THESE TO MATCH YOUR DOWNLOAD LOCATIONS FOR YOUR BROWSER AND BROWSERDRIVER
 options.binary_loaction = r"/usr/bin/google-chrome-stable"
-executable_path = r"/usr/bin/chromedriver"
+executable_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver"
 
 def main():
     user_name = input('Github Username: ')
@@ -31,8 +31,8 @@ def main():
     else:
         repo_name = os.path.basename(os.getcwd())
 
-    # open github, create new repo
     with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
+        # login to Github
         driver.get('https://github.com/login')
 
         login_field = WebDriverWait(driver, 10).until(
@@ -43,9 +43,9 @@ def main():
                             EC.element_to_be_clickable((By.ID, 'password')))
         password_field.send_keys(password)
 
+        # create new repo
         driver.find_element_by_name('commit').click()
         driver.get('https://github.com/new')
-
 
         name_field = WebDriverWait(driver, 10).until(
                             EC.element_to_be_clickable((By.ID, 'repository_name')))
@@ -55,6 +55,7 @@ def main():
         responce = WebDriverWait(driver, 10).until(
                             EC.presence_of_element_located((By.CSS_SELECTOR, "[id^=input-check]")))
         
+        # make sure repo name is available
         assert responce.text == f'{repo_name} is available.', responce.text
         
         button_xpath = '//*[@id="new_repository"]/div[4]/button'
@@ -70,7 +71,7 @@ def main():
     os.system('git add .')
     os.system('git commit -m "initial commit"')
 
-    # SWAP DEPENDING IF YOU WANT SSH OR HTTPS REMOTE LINK
+    # HTTPS vs SSH remote origin
     if input('Choose 0 for HTTPS, 1 for SSH: '):
         os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
     else:
