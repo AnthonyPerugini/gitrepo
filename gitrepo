@@ -6,5 +6,6 @@ if [ "$#" -gt 1 ]; then
 	exit 1
 fi
 
-# replace with your python and gitrepo.py locations 
-<insert python path here> <insert git_repo.py path here> $1
+# auto populated from install.sh here with python and file path
+# >>>>>>
+python3 /home/spicy/fun/repos/gitrepo/gitrepo.py $1
