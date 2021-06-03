@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 options = webdriver.ChromeOptions()
-# CHANGE THESE TO MATCH YOUR DOWNLOAD LOCATIONS FOR YOUR BROWSER AND BROWSERDRIVER
+#change binary_location to match your browser location
 options.binary_location = r"/usr/bin/google-chrome-stable"
 executable_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver"
 

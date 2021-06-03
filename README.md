@@ -4,22 +4,23 @@
 > 
 > -J.R. Rim
 > 
+Wow, now that you're feeling super inspired, check out Gitrepo
 
 What Is It?
 ----
 Python to automate the process of git repo and github initialization.
 
-Uses selenium to access github, do all the repetitive steps of creating the repo for you, and initialized the local repo if necessary.
+Uses selenium to access github, and complete all the repetitive steps for you.
 
 
 This command will:
 
-* Create a new github repository with a name of your choice.
-* runs 'git init' (if no .git is found).
-* create a blank README.md (if none is found).
-* remote attach git to the newly created github repo.
+* creates a new github repository with a name of your choice (defaults to cwd name).
+* runs 'git init' (if no .git file is found).
+* creates a blank README.md (if none is found).
+* remote attaches git to the newly created github repo.
 * pushes an initial commit to github.
-* return a link to the repo on your clipboard.
+* returns a link to the repo on your clipboard.
 
 
 Usage
