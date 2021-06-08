@@ -61,5 +61,5 @@ You may want to change google-chrome and chromedriver to match the browser of yo
 
 [chromedriver or driver of choice](https://chromedriver.chromium.org/downloads)
 
-[clipboard](https://pypi.org/project/clipboard/)
+[pyperclip](https://pypi.org/project/pyperclip/)
 
