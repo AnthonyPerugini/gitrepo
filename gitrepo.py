@@ -1,7 +1,9 @@
 import sys
 import os
+import shutil
 from getpass import getpass
 import pyperclip
+from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -15,8 +17,8 @@ options.binary_location = r"/usr/bin/google-chrome-stable"
 executable_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver"
 
 def main():
-    user_name = input('Github Username: ')
-    password = getpass()
+
+    user_name, password = get_credentials()
 
     # get repo_name, and make a new directory.  If no name provided, use the current working directory.
     if len(sys.argv) == 2:
@@ -26,43 +28,32 @@ def main():
             os.chdir(repo_name)
         except OSError as e:
             print(e)
-            print('Exiting: use a different repo name to avoid overwriting!')
+            print('A directory with that name already exists!')
+            print('Exiting...use a different repo name to avoid overwriting!')
             exit(1)
     else:
         repo_name = os.path.basename(os.getcwd())
 
     with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
-        # login to Github
-        driver.get('https://github.com/login')
 
-        login_field = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.ID, 'login_field')))
-        login_field.send_keys(user_name)
-
-        password_field = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.ID, 'password')))
-        password_field.send_keys(password)
+        github_login(driver, user_name, password)
 
         # create new repo
-        driver.find_element_by_name('commit').click()
         driver.get('https://github.com/new')
 
-        name_field = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.ID, 'repository_name')))
+        name_field = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'repository_name')))
         name_field.send_keys(f'{repo_name}')
 
-        
-        responce = WebDriverWait(driver, 10).until(
-                            EC.presence_of_element_located((By.CSS_SELECTOR, "[id^=input-check]")))
+        confirmation_message = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id^=input-check]")))
         
         # make sure repo name is available
-        assert responce.text == f'{repo_name} is available.', responce.text
+        assert confirmation_message.text == f'{repo_name} is available.', confirmation_message.text
         
-        button_xpath = '//*[@id="new_repository"]/div[4]/button'
-        driver.find_element_by_xpath(button_xpath).click()
+        submit_button_xpath = '//*[@id="new_repository"]/div[4]/button'
+        driver.find_element_by_xpath(submit_button_xpath).click()
 
 
-    # check if .git or README already exist, if not create them
+    # check if .git and README already exist. If not, create them
     if '.git' not in os.listdir():
         os.system('git init')
     if 'README.md' not in os.listdir():
@@ -72,7 +63,7 @@ def main():
     os.system('git commit -m "initial commit"')
 
     # HTTPS vs SSH remote origin
-    if input('Choose 0 for HTTPS, 1 for SSH: '):
+    if input('Choose 0 for HTTPS, 1 for SSH: ') == 1:
         os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
     else:
         os.system(f'git remote add origin https://github.com/{user_name}/{repo_name}.git')
@@ -81,5 +72,63 @@ def main():
     pyperclip.copy(f'github.com/{user_name}/{repo_name}')
     os.system('echo "Github URL successfully copied to clipboard!"')
 
+
+def github_login(driver, user_name, password):
+    driver.get('https://github.com/login')
+
+    login_field = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'login_field')))
+    login_field.send_keys(user_name)
+
+    password_field = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'password')))
+    password_field.send_keys(password)
+
+    driver.find_element_by_name('commit').click()
+
+
+def tearDown(local=False, remote=False):
+    if local:
+        repo_name = input('repo_name: ')
+        shutil.rmtree(repo_name)
+        print('repo directory removed sucessfully')
+
+    if remote:
+        print('tearing down github repo')
+        repo_name = input('repo_name: ')
+
+        user_name, password = get_credentials()
+        
+        with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
+
+            github_login(driver, user_name, password)
+
+            driver.get(f'https://github.com/{user_name}/{repo_name}/settings')
+
+            delete_button_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/summary'
+            delete_button = WebDriverWait(driver, 10).until(
+                                EC.presence_of_element_located((By.XPATH, delete_button_xpath))).click()
+
+            confirmation_field_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/p/input'
+            confirmation_field = WebDriverWait(driver, 10).until(
+                                EC.presence_of_element_located((By.XPATH, confirmation_field_xpath)))
+
+            confirmation_field.send_keys(f'{user_name}/{repo_name}')
+            print('done')
+            sleep(15)
+
+def get_credentials():
+    if os.path.exists('pass.txt'):
+        with open('pass.txt') as f:
+            credentials = f.readlines()
+            credentials = [cred.strip() for cred in credentials]
+            user_name, password = credentials
+    else:
+        user_name = input('Github Username: ')
+        password = getpass()
+
+    return user_name, password
+
+
 if __name__ == '__main__':
+    tearDown(remote=True)
+    exit()
     main()
