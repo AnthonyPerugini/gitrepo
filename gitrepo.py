@@ -12,7 +12,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 options = webdriver.ChromeOptions()
-#change binary_location to match your browser location
+
+# change options.binary_location and executable_path to match your browser and driver locations
 options.binary_location = r"/usr/bin/google-chrome-stable"
 executable_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver"
 
@@ -28,7 +29,7 @@ def main():
             os.chdir(repo_name)
         except OSError as e:
             print(e)
-            print('A directory with that name already exists!')
+            print('A directory with that name already exists in this location')
             print('Exiting...use a different repo name to avoid overwriting!')
             exit(1)
     else:
@@ -36,7 +37,7 @@ def main():
 
     with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
 
-        github_login(driver, user_name, password)
+        github_login(driver)
 
         # create new repo
         driver.get('https://github.com/new')
@@ -44,9 +45,8 @@ def main():
         name_field = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'repository_name')))
         name_field.send_keys(f'{repo_name}')
 
+        # make sure repo name is available, then create
         confirmation_message = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id^=input-check]")))
-        
-        # make sure repo name is available
         assert confirmation_message.text == f'{repo_name} is available.', confirmation_message.text
         
         submit_button_xpath = '//*[@id="new_repository"]/div[4]/button'
@@ -73,7 +73,10 @@ def main():
     os.system('echo "Github URL successfully copied to clipboard!"')
 
 
-def github_login(driver, user_name, password):
+def github_login(driver):
+
+    user_name, password = get_credentials()
+
     driver.get('https://github.com/login')
 
     login_field = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'login_field')))
@@ -85,35 +88,35 @@ def github_login(driver, user_name, password):
     driver.find_element_by_name('commit').click()
 
 
-def tearDown(local=False, remote=False):
-    if local:
-        repo_name = input('repo_name: ')
-        shutil.rmtree(repo_name)
-        print('repo directory removed sucessfully')
+def tearDown(local_name=None, remote_name=None):
+    if local_name is not None:
+        print('tearing down local files...')
+        shutil.rmtree(local_name)
+        print('local repo tear down sucessful!')
 
-    if remote:
-        print('tearing down github repo')
-        repo_name = input('repo_name: ')
+    if remote_name is not None:
+        print('tearing down github repo...')
 
         user_name, password = get_credentials()
         
         with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
 
-            github_login(driver, user_name, password)
+            github_login(driver)
 
-            driver.get(f'https://github.com/{user_name}/{repo_name}/settings')
+            driver.get(f'https://github.com/{user_name}/{remote_name}/settings')
 
             delete_button_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/summary'
-            delete_button = WebDriverWait(driver, 10).until(
-                                EC.presence_of_element_located((By.XPATH, delete_button_xpath))).click()
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, delete_button_xpath))).click()
 
             confirmation_field_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/p/input'
-            confirmation_field = WebDriverWait(driver, 10).until(
-                                EC.presence_of_element_located((By.XPATH, confirmation_field_xpath)))
+            confirmation_field = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirmation_field_xpath)))
+            confirmation_field.send_keys(f'{user_name}/{remote_name}')
 
-            confirmation_field.send_keys(f'{user_name}/{repo_name}')
-            print('done')
-            sleep(15)
+            confirm_delete_button_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/button/span[1]'
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirm_delete_button_xpath))).click()
+
+        print('remote tear down sucessful!')
+
 
 def get_credentials():
     if os.path.exists('pass.txt'):
@@ -129,6 +132,6 @@ def get_credentials():
 
 
 if __name__ == '__main__':
-    tearDown(remote=True)
+    tearDown(remote_name='chess')
     exit()
     main()
