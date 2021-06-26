@@ -71,7 +71,7 @@ def main():
 
         os.system('git push -u origin master')
         pyperclip.copy(f'github.com/{user_name}/{repo_name}')
-        os.system('echo "Github URL successfully copied to clipboard!"')
+        print('Github URL successfully copied to clipboard!')
 
     except Exception as e:
         print(e)
@@ -100,27 +100,30 @@ def tearDown(local_name=None, remote_name=None):
         print('local repo tear down sucessful!')
 
     if remote_name is not None:
-        print('tearing down remote github repo...')
+        print('Attempting tear down of remote github repo...')
 
         user_name, password = get_credentials()
-        
-        with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
+        try: 
+            with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
 
-            github_login(driver)
+                github_login(driver)
 
-            driver.get(f'https://github.com/{user_name}/{remote_name}/settings')
+                driver.get(f'https://github.com/{user_name}/{remote_name}/settings')
 
-            delete_button_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/summary'
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, delete_button_xpath))).click()
+                delete_button_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/summary'
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, delete_button_xpath))).click()
 
-            confirmation_field_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/p/input'
-            confirmation_field = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirmation_field_xpath)))
-            confirmation_field.send_keys(f'{user_name}/{remote_name}')
+                confirmation_field_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/p/input'
+                confirmation_field = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirmation_field_xpath)))
+                confirmation_field.send_keys(f'{user_name}/{remote_name}')
 
-            confirm_delete_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/button/span[1]'
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirm_delete_xpath))).click()
+                confirm_delete_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/button/span[1]'
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirm_delete_xpath))).click()
 
-        print('remote tear down sucessful!')
+            print('remote tear down sucessful!')
+        except Exception as e:
+            print(e)
+            print('remote tear down failed')
 
 
 def get_credentials():
