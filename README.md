@@ -48,6 +48,9 @@ chmod +x install.sh
 		* You can either hard code in your username and password for conveinence, or keep it as is for security.
 		* Change the options.binary_location if your google-chrome installation path is different
 
+	* For convienence, you can add a 'pass.txt' into the main gitrepo directory containing your github login credentials.  If you don't the script will just prompt you for your login info each time.
+		* Put your email on line 1 and your password on line 2 of the text document and it should work
+
 Requirements
 ----
 see requirements.txt

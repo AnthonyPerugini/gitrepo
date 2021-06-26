@@ -128,7 +128,7 @@ def get_credentials():
         with open('pass.txt') as f:
             credentials = f.readlines()
             credentials = [cred.strip() for cred in credentials]
-            user_name, password = credentials
+            user_name, password, _* = credentials
     else:
         user_name = input('Github Username: ')
         password = getpass()
