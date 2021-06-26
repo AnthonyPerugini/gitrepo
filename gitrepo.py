@@ -29,48 +29,53 @@ def main():
             os.chdir(repo_name)
         except OSError as e:
             print(e)
-            print('A directory with that name already exists in this location')
-            print('Exiting...use a different repo name to avoid overwriting!')
+            print('A directory with that name already exists in this location, exiting to avoid overwrite')
+            tearDown(local_name=repo_name)
             exit(1)
     else:
         repo_name = os.path.basename(os.getcwd())
 
-    with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
+    try:
+        with webdriver.Chrome(executable_path=executable_path, options=options) as driver:
 
-        github_login(driver)
+            github_login(driver)
 
-        # create new repo
-        driver.get('https://github.com/new')
+            # create new repo
+            driver.get('https://github.com/new')
 
-        name_field = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'repository_name')))
-        name_field.send_keys(f'{repo_name}')
+            name_field = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'repository_name')))
+            name_field.send_keys(f'{repo_name}')
 
-        # make sure repo name is available, then create
-        confirmation_message = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id^=input-check]")))
-        assert confirmation_message.text == f'{repo_name} is available.', confirmation_message.text
-        
-        submit_button_xpath = '//*[@id="new_repository"]/div[4]/button'
-        driver.find_element_by_xpath(submit_button_xpath).click()
+            # make sure repo name is available, then create
+            confirmation_message = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id^=input-check]")))
+            assert confirmation_message.text == f'{repo_name} is available.', confirmation_message.text
+            
+            submit_button_xpath = '//*[@id="new_repository"]/div[4]/button'
+            driver.find_element_by_xpath(submit_button_xpath).click()
 
 
-    # check if .git and README already exist. If not, create them
-    if '.git' not in os.listdir():
-        os.system('git init')
-    if 'README.md' not in os.listdir():
-        os.system('touch README.md')
+        # check if .git and README already exist. If not, create them
+        if '.git' not in os.listdir():
+            os.system('git init')
+        if 'README.md' not in os.listdir():
+            os.system('touch README.md')
 
-    os.system('git add .')
-    os.system('git commit -m "initial commit"')
+        os.system('git add .')
+        os.system('git commit -m "initial commit"')
 
-    # HTTPS vs SSH remote origin
-    if input('Choose 0 for HTTPS, 1 for SSH: ') == 1:
-        os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
-    else:
-        os.system(f'git remote add origin https://github.com/{user_name}/{repo_name}.git')
+        # HTTPS vs SSH remote origin
+        if input('Choose 0 for HTTPS, 1 for SSH: ') == 1:
+            os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
+        else:
+            os.system(f'git remote add origin https://github.com/{user_name}/{repo_name}.git')
 
-    os.system('git push -u origin master')
-    pyperclip.copy(f'github.com/{user_name}/{repo_name}')
-    os.system('echo "Github URL successfully copied to clipboard!"')
+        os.system('git push -u origin master')
+        pyperclip.copy(f'github.com/{user_name}/{repo_name}')
+        os.system('echo "Github URL successfully copied to clipboard!"')
+
+    except Exception as e:
+        print(e)
+        tearDown(local_name=repo_name, remote_name=repo_name)
 
 
 def github_login(driver):
@@ -95,7 +100,7 @@ def tearDown(local_name=None, remote_name=None):
         print('local repo tear down sucessful!')
 
     if remote_name is not None:
-        print('tearing down github repo...')
+        print('tearing down remote github repo...')
 
         user_name, password = get_credentials()
         
@@ -112,8 +117,8 @@ def tearDown(local_name=None, remote_name=None):
             confirmation_field = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirmation_field_xpath)))
             confirmation_field.send_keys(f'{user_name}/{remote_name}')
 
-            confirm_delete_button_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/button/span[1]'
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirm_delete_button_xpath))).click()
+            confirm_delete_xpath = '//*[@id="options_bucket"]/div[10]/ul/li[4]/details/details-dialog/div[3]/form/button/span[1]'
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, confirm_delete_xpath))).click()
 
         print('remote tear down sucessful!')
 
@@ -132,6 +137,4 @@ def get_credentials():
 
 
 if __name__ == '__main__':
-    tearDown(remote_name='chess')
-    exit()
     main()
