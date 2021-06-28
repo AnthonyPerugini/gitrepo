@@ -12,7 +12,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 options = webdriver.ChromeOptions()
-
 # change options.binary_location and executable_path to match your browser and driver locations
 options.binary_location = r"/usr/bin/google-chrome-stable"
 executable_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver"
@@ -64,7 +63,7 @@ def main():
         os.system('git commit -m "initial commit"')
 
         # HTTPS vs SSH remote origin
-        if input('Choose 0 for HTTPS, 1 for SSH: ') == 1:
+        if input('Choose 0 for HTTPS, 1 for SSH: '):
             os.system(f'git remote add origin git@github.com:{user_name}/{repo_name}.git')
         else:
             os.system(f'git remote add origin https://github.com/{user_name}/{repo_name}.git')
@@ -73,10 +72,11 @@ def main():
         pyperclip.copy(f'github.com/{user_name}/{repo_name}')
         print('Github URL successfully copied to clipboard!')
 
+    except KeyboardInterrupt:
+        tearDown(local_name=repo_name, remote_name=repo_name)
     except Exception as e:
         print(e)
         tearDown(local_name=repo_name, remote_name=repo_name)
-
 
 def github_login(driver):
 
@@ -91,6 +91,21 @@ def github_login(driver):
     password_field.send_keys(password)
 
     driver.find_element_by_name('commit').click()
+
+
+def get_credentials():
+    parent_dircetory = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(parent_dircetory, 'pass.txt')
+    if os.path.exists(file_path):
+        with open(file_path) as f:
+            credentials = f.readlines()
+            credentials = [cred.strip() for cred in credentials]
+            user_name, password = credentials
+    else:
+        user_name = input('Github Username: ')
+        password = getpass()
+
+    return user_name, password
 
 
 def tearDown(local_name=None, remote_name=None):
@@ -124,19 +139,6 @@ def tearDown(local_name=None, remote_name=None):
         except Exception as e:
             print(e)
             print('remote tear down failed')
-
-
-def get_credentials():
-    if os.path.exists('pass.txt'):
-        with open('pass.txt') as f:
-            credentials = f.readlines()
-            credentials = [cred.strip() for cred in credentials]
-            user_name, password, _* = credentials
-    else:
-        user_name = input('Github Username: ')
-        password = getpass()
-
-    return user_name, password
 
 
 if __name__ == '__main__':
