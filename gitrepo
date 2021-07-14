@@ -6,5 +6,5 @@ if [ "$#" -gt 1 ]; then
 	exit 1
 fi
 
-# auto populated from install.sh here with python and file path
+# auto populated from install.sh, do not edit below this line.
 # >>>>>>
