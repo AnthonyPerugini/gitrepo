@@ -2,7 +2,6 @@ import sys
 import os
 import shutil
 from getpass import getpass
-import pyperclip
 from time import sleep
 
 from selenium import webdriver
@@ -13,8 +12,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 options = webdriver.ChromeOptions()
 # change options.binary_location and executable_path to match your browser and driver locations
-options.binary_location = r"/usr/bin/google-chrome-stable"
-executable_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver"
+options.binary_location = f'/usr/bin/google-chrome-stable'
+executable_path = f'/usr/bin/chromedriver'
 
 def main():
 
@@ -28,7 +27,7 @@ def main():
             os.chdir(repo_name)
         except OSError as e:
             print(e)
-            print('A directory with that name already exists in this location, exiting to avoid overwrite')
+            print('A directory with that name already exists! Aborting.')
             tearDown(local_name=repo_name)
             exit(1)
     else:
@@ -69,14 +68,16 @@ def main():
             os.system(f'git remote add origin https://github.com/{user_name}/{repo_name}.git')
 
         os.system('git push -u origin master')
-        pyperclip.copy(f'github.com/{user_name}/{repo_name}')
-        print('Github URL successfully copied to clipboard!')
+        repo_url_path = f'https://www.github.com/{user_name}/{repo_name}'
+        print(f'Repo successfully created at: {repo_url_path}')
 
     except KeyboardInterrupt:
         tearDown(local_name=repo_name, remote_name=repo_name)
     except Exception as e:
         print(e)
         tearDown(local_name=repo_name, remote_name=repo_name)
+
+
 
 def github_login(driver):
 
